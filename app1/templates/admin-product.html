@@ -1,0 +1,109 @@
+{% extends "admin-header.html" %}
+{% load static %}
+{% block content %}
+<div ng-app="abc" ng-controller="idontknow">
+    <section class="add-products">
+        <h1 class="title">
+            Vehicle Management
+        </h1>
+        <h1 class="title">
+            <select class="option-btn" style="text-align: center;" ng-model="typeV">
+                <option selected disabled value="">
+                    Select your type of vehicle to display
+                </option>
+                <option value="public">
+                    Public
+                </option>
+                <option value="private">
+                    Private
+                </option>
+            </select>
+        </h1>
+        <form method="post" enctype="multipart/form-data" action=".">
+            {% csrf_token %}
+            <h3>add vehicles</h3>
+            <select class="box" name="typeV" id="typeV">
+                <option selected disabled value="">
+                    Select your type of vehicle
+                </option>
+                <option value="public">
+                    Public
+                </option>
+                <option value="private">
+                    Private
+                </option>
+            </select>
+            <input required type="text" name="brand" id="brand" class="box" placeholder="Enter your vehicle's brand name; ie. Toyota">
+            <input min="0" required type="number" name="vehAge" id="vehAge" class="box" placeholder="Enter number of years owner have owned; ie. 5">
+            <input required type="text" name="owner" id="owner" class="box" placeholder="Enter your vehicle's owner; ie. OWN001">
+            <input required type="text" name="plate_number" class="box" placeholder="Enter the plate number; ie. 50A-32435">
+            <input required type="text" name="vehicle_type" class="box" placeholder="Enter the vehicle type (Bus/Train/Car/Motorbike)">
+            <input required type="text" name="regID" class="box" placeholder="Enter the vehicle's register id; ie.VEH001">
+            <input type="number" name="max_capacity" id="max_capacity" class="box" placeholder="Enter maximum capacity (blank for private vehicles)">
+            <input type="text" name="model" id="model" class="box" placeholder="Enter model; ie. Toyota Fortuner (blank for private)">
+            <input type="submit" value="add new vehicle" class="btn">
+        </form>
+    </section>
+    
+    <section class="show-products">
+        <div class="box-container">
+            {% if many_products.count == 0 %}
+            <p class="empty">No vehicle available yet!</p>
+            {% else %}
+            <div ng-show="public_veh(typeV);">
+                <p class="empty">Public vehicle</p>
+                {% for item in many_public %}
+                <div class="box">
+                    <div class="name">{{item.reg.reg_id}}</div>
+                    <div class="name">Brand: {{item.reg.brand}}</div>
+                    <div class="name">Owner: {{item.reg.owner.owner_id}}</div>
+                    <div class="name">Capacity: {{item.maximum_capacity}}</div>
+                    <div class="name">Vehicle Type: {{item.vehicle_type}}</div>
+                    <div class="name">Model: {{item.model}}</div>
+                    <div class="price">Age: {{item.reg.vehicle_age}}</div>
+                    <div class="price">License Plate Number: {{item.license_plate_no}}</div>
+                    <a href="{% url 'updatePro' proId=item.reg_id  action='update' typeV='public'  %}" class="option-btn">update</a>
+                    <a href="{% url 'deletePro' prodId=item.reg_id action='delete' typeV='public' %}" class="delete-btn" onclick="return confirm('Delete this vehicle?')" >delete</a>
+                </div>
+                {% endfor %}
+            </div>
+            <div ng-show="private_veh(typeV);">
+                <p class="empty">Private vehicle</p>
+                {% for itemw in many_private %}
+                <div class="box">
+                    <div class="name">{{itemw.reg_id}}</div>
+                    <div class="name">Brand: {{itemw.reg.brand}}</div>
+                    <div class="name">Owner: {{itemw.reg.owner.owner_id}}</div>
+                    <div class="name">Vehicle Type: {{itemw.vehicle_type}}</div>
+                    <div class="price">Age: {{itemw.reg.vehicle_age}}</div>
+                    <div class="price">Plate Number: {{itemw.plate_number}}</div>
+                    <a href="{% url 'updatePro' proId=itemw.reg_id  action='update' typeV='private'  %}" class="option-btn">update</a>
+                    <a href="{% url 'deletePro' prodId=itemw.reg_id action='delete' typeV='private' %}" class="delete-btn" onclick="return confirm('Delete this vehicle?')" >delete</a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+            {% endif %}
+    </section>
+</div>
+    <section class="edit-product-form">
+        {% if proUpd != NaN %}
+        <form action="." method="post">
+            {% csrf_token %}
+            <input required type="text" name="brand" id="brand" class="box" placeholder="Enter your vehicle's brand name; ie. Toyota" value="{{proUpd.reg.brand}}">
+            <input min="0" required type="number" name="vehAge" id="vehAge" class="box" placeholder="Enter number of years owner have owned; ie. 5" value="{{proUpd.reg.vehicle_age}}">
+            <input required type="text" name="owner" id="owner" class="box" placeholder="Enter your vehicle's owner; ie. OWN001" value="{{proUpd.reg.owner_id}}">
+            <input required type="text" name="plate_number" class="box" placeholder="Enter the plate number (0 for public vehicles)" value="{{proUpd.plate_number}}">
+            <input required type="text" name="vehicle_type" class="box" placeholder="Enter the vehicle type" value="{{proUpd.vehicle_type}}">
+            <input type="number" name="max_capacity" id="max_capacity" class="box" placeholder="Enter maximum capacity (0 for private vehicles)" value="{{proUpd.maximum_capacity}}">
+            <input type="text" name="model" id="model" class="box" placeholder="Enter model" value="{{proUpd.model}}">
+            <input type="submit" value="update pro" class="btn">
+            <a href="{% url 'adminProduct' %}" class="option-btn">Cancel</a>
+        </form>
+        {% else %}
+        <script>
+            document.querySelector('.edit-product-form').style.display = 'none';
+        </script>
+        {% endif %}
+    </section>
+    {% endblock content %}

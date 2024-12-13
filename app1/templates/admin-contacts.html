@@ -1,0 +1,74 @@
+{% extends "admin-header.html" %}
+{% load static %}
+{% block content %}
+<section class="messages">
+    <h1 class="title">Owner Contact</h1>
+    <button id="addContactBtn" class="btn">Add</button>
+    <div id="addContactModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <form method="post" action="{% url 'add_contact' %}">
+                {% csrf_token %}
+                <label for="owner">Owner ID:</label>
+                <input type="text" id="owner" name="owner" required>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+                <label for="ssn">SSN:</label>
+                <input type="text" id="ssn" name="ssn" required>
+                <label for="driving_license">Driving License:</label>
+                <input type="text" id="driving_license" name="driving_license" required>
+                <label for="dob">Date of Birth:</label>
+                <input type="date" id="dob" name="dob" required>
+                <label for="phone_number">Phone Number:</label>
+                <input type="text" id="phone_number" name="phone_number" required>
+                <label for="isp">ISP:</label>
+                <input type="text" id="isp" name="isp" required>
+                <label for="region">Region:</label>
+                <input type="text" id="region" name="region" required>
+                <button type="submit" class="btn">Add Contact</button>
+            </form>
+        </div>
+    </div>
+    <div class="box-container">
+        {% if many_messages.count == 0 %}
+        <p class="empty">No information available!</p>
+        {% else %}
+        {% for item in many_messages %}
+        <div class="box">
+            <p>Owner ID: <span>{{item.owner.owner_id}}</span></p>
+            <p>Name: <span>{{item.owner.person.pname}}</span></p>
+            <p>SSN: <span>{{item.owner.person.ssn}}</span></p>
+            <p>Driving License: <span>{{item.owner.person.driving_license}}</span></p>
+            <p>Date of Birth: <span>{{item.owner.dob}}</span></p>
+            <p>Number: <span>{{item.phone_number}}</span></p>
+            <p>ISP: <span>{{item.isp}}</span></p>
+            <p>Region: <span>{{item.region}}</span></p>
+            <a href="{% url 'deleteContact' messId=item.owner.owner_id %}" onclick="return confirm('delete this contact?');" class="delete-btn">delete</a>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var modal = document.getElementById("addContactModal");
+    var btn = document.getElementById("addContactBtn");
+    var span = document.getElementsByClassName("close")[0];
+
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+});
+</script>

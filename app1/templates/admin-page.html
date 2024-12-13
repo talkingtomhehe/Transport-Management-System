@@ -1,0 +1,125 @@
+{% extends "admin-header.html" %}
+{% load static %}
+    {% block content %}
+    <section class="dashboard">
+        <h1 class="title">Dashboard</h1>
+        <div class="box-container">
+            <div class="box">
+                <h3>
+                {% if many_person.count > 0 %}
+                    {{many_person.count}}
+                {% else %}
+                    0
+                {% endif %}
+                </h3>
+                <p>Total owners as person</p>
+            </div>
+            <div class="box">
+                <h3>
+                {% if many_comp.count > 0 %}
+                    {{many_comp.count}}
+                {% else %}
+                    0
+                {% endif %}
+                </h3>
+                <p>Total owners as company</p>
+            </div>
+            <div class="box">
+                <h3>
+                {% if many_public.count > 0 %}
+                    {{many_public.count}}
+                {% else %}
+                    0
+                {% endif %}
+                </h3>
+                <p>Total public vehicles</p>
+            </div>
+            <div class="box">
+                <h3>
+                {% if many_private.count > 0 %}
+                    {{many_private.count}}
+                {% else %}
+                    0
+                {% endif %}
+                </h3>
+                <p>Total private vehicles</p>
+            </div>
+            <div class="box">
+                <h3>
+                {% if many_cust.count > 0 %}
+                    {{many_cust.count}}
+                {% else %}
+                    0
+                {% endif %}
+                </h3>
+                <p>Total customers</p>
+            </div>
+            <div class="box">
+                <h3>
+                {% if many_cargo.count > 0 %}
+                    {{many_cargo.count}}
+                {% else %}
+                    0
+                {% endif %}
+                </h3>
+                <p>Total cargos</p>
+            </div>
+            <div class="box">
+                <h3>
+                {% if many_route.count > 0 %}
+                    {{many_route.count}}
+                {% else %}
+                    0
+                {% endif %}
+                </h3>
+                <p>Total routes</p>
+            </div>
+            <div class="box">
+                <h3>
+                {% if many_station.count > 0 %}
+                    {{many_station.count}}
+                {% else %}
+                    0
+                {% endif %}
+                </h3>
+                <p>Total stations/stops</p>
+            </div>
+            <div class="box">
+                <h3>
+                {% if many_park.count > 0 %}
+                    {{many_park.0.count_address}}
+                {% else %}
+                    0
+                {% endif %}
+                </h3>
+                <p>Total parking addresses</p>
+            </div>
+            <div class="box">
+                <h3>
+                {% if many_sell.count > 0 %}
+                    {{many_sell.0.count_buyer}}
+                {% else %}
+                    0
+                {% endif %}
+                </h3>
+                <p>Total buyers</p>
+            </div>
+            <div class="box">
+                <h3>
+                {% if many_sell.count > 0 %}
+                    {{many_sell.0.count_seller}}
+                {% else %}
+                    0
+                {% endif %}
+                </h3>
+                <p>Total sellers</p>
+            </div>
+            <div class="box">
+                <h3>
+                    {{ many_users.count}}
+                </h3>
+                <p>Total users</p>
+            </div>
+        </div>
+    </section>
+    {% endblock content %}

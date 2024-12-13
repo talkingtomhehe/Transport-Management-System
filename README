@@ -1,0 +1,12 @@
+To run this application, follow these steps:
+
+1. **Run the SQL script**: Execute the code in `mysqlBTL2.sql` to create tables, import data, and create users.
+2. **Check database port**: Ensure that the database port is set to `3306` and the `mysqlclient` package is installed.
+3. **Migrate database**: Allow Django to access the database by running the command:
+    ```sh
+    py manage.py migrate
+    ```
+4. **Start the development server**: Launch the website and start the Django development server with the command:
+    ```sh
+    py manage.py runserver
+    ```
